@@ -1,0 +1,50 @@
+{# templates/livraison/statistics.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Livraisons Statistics{% endblock %}
+
+{% block body %}
+    <h1>Livraisons Statistics</h1>
+
+    <canvas id="livraisonsChart" width="400" height="200"></canvas>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var ctx = document.getElementById('livraisonsChart').getContext('2d');
+
+            var data = {
+                labels: [
+                    {% for livraison in livraisonsStatistics %}
+                    '{{ livraison.nom }} {{ livraison.prenom }}',
+                    {% endfor %}
+                ],
+                datasets: [{
+                    label: 'Number of Orders',
+                    data: [
+                        {% for livraison in livraisonsStatistics %}
+                        {{ livraison.nbrC }},
+                        {% endfor %}
+                    ],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            };
+
+            var options = {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            };
+
+            var myBarChart = new Chart(ctx, {
+                type: 'bar',
+                data: data,
+                options: options
+            });
+        });
+    </script>
+{% endblock %}

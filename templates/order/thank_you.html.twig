@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Thank You{% endblock %}
+
+{% block body %}
+    <h1>Thank You for Your Order! See you next time </h1>
+    {# You can customize this page with additional information or instructions. #}
+
+    <a href="{{ path('product_index') }}" class="btn btn-primary">Continue Shopping</a>
+{% endblock %}

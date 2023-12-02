@@ -1,0 +1,8 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+# config/routes.yaml
+produit_index:
+  path: /produit
+  methods: GET
+  controller: App\Controller\ProduitController::index
