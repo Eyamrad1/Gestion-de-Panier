@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+{% set controller_name = 'App\\Controller\\CartController' %}
+
+
+
+{% block body %}
+    <section class="bg-light p-3">
+        <h1>Votre panier</h1>
+    </section>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Produit</th>
+            <th>Prix</th>
+            <th>Quantité</th>
+            <th>Total</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if dataPanier is not empty %}
+            {% for element in dataPanier %}
+                <tr>
+                    <td>{{ element.produit.getNomProduit() }}</td>
+                    <td class="text-end">{{ element.produit.getPrix() }} €</td>
+                    <td>{{ element.quantite }}</td>
+                    <td class="text-end">{{ element.quantite * element.produit.getPrix() }} €</td>
+                    <td>
+                        <a href="{{ path('cart_add', {id: element.produit.getId()}) }}" class="btn btn-success">
+                            <i class="bi bi-cart-plus"></i>
+                        </a>
+                        <a href="{{ path('cart_remove', {id: element.produit.getId()}) }}" class="btn btn-warning">
+                            <i class="bi bi-cart-dash"></i>
+                        </a>
+                        <a href="#" class="btn btn-danger" onclick="confirmDelete('{{ path('cart_delete', {'id': element.produit.getId()}) }}')">
+                            <i class="bi bi-cart-x"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="5" class="text-center">Votre panier est vide</td>
+            </tr>
+        {% endif %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="3">Total</td>
+            <td class="text-end">{{ total }} €</td>
+            <td>
+                <a href="{{ path('cart_delete_all') }}" class="btn btn-danger">
+                    <i class="bi bi-cart-x"></i>
+                </a>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+    <a href="{{ path('app_order') }}" class="btn btn-primary">Valider le panier</a>
+
+    <script>
+        function confirmDelete(deleteUrl) {
+            var deleteConfirm = confirm("Are you sure you want to delete this product?");
+            if (deleteConfirm) {
+                window.location.href = deleteUrl;
+            }
+        }
+    </script>
+
+{% endblock %}
