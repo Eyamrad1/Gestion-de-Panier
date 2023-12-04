@@ -46,4 +46,39 @@ class ProduitRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function getStatistiquesProduits()
+    {
+        // Exemple : récupérer le produit le plus cher
+        $produitPlusCher = $this->createQueryBuilder('p')
+            ->orderBy('p.prix', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        // Exemple : récupérer le produit le moins cher
+        $produitMoinsCher = $this->createQueryBuilder('p')
+            ->orderBy('p.prix', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        // Exemple : récupérer le nombre total de produits
+        $nombreTotalProduits = $this->createQueryBuilder('p')
+            ->select('COUNT(p.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return [
+            'produitPlusCher'  => [
+                'name' => $produitPlusCher ? $produitPlusCher->getNomProduit() : null,
+                'prix' => $produitPlusCher ? $produitPlusCher->getPrix() : null,
+            ],
+            'produitMoinsCher'  => [
+                'name' => $produitMoinsCher ? $produitMoinsCher->getNomProduit() : null,
+                'prix' => $produitMoinsCher ? $produitMoinsCher->getPrix() : null,
+            ],
+            'nombreTotalProduits' => $nombreTotalProduits,
+        ];
+    }
 }
