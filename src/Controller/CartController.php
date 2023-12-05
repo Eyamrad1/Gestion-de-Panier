@@ -67,9 +67,9 @@ class CartController extends AbstractController
     }
 
 
-    /**
-     * @Route("/cart/remove/{id}", name="cart_remove")
-     */
+
+      #[Route("/cart/remove/{id}", name: "cart_remove")]
+
     public function remove($id, SessionInterface $session, ProduitRepository $produitRepository)
     {
         $produit = $produitRepository->find($id);
